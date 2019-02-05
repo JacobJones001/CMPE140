@@ -8,7 +8,7 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
     wire Done_tb, Error_tb;
     wire [DATA_WIDTH-1:0] product_tb;
 
-    factorial #(.DATA_WIDTH=DATA_WIDTH) DUT(
+    factorial #(.DATA_WIDTH(DATA_WIDTH)) DUT(
         .clk(clk_tb),
         .rst(rst_tb),
         .Go(Go_tb),
@@ -85,6 +85,9 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
            #1;
         end
     endtask
+    
+    initial #250 $stop;
+
 
 
 endmodule
