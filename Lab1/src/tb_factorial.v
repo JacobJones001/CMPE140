@@ -19,4 +19,72 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
     );
 
 
+    integer error_count = 0;
+
+    initial
+    begin
+        clk_tb = 0;
+        rst_tb = 0;
+        Go_tb = 0;
+        tick;
+
+        for(integer test_num = 0; test_num <= 13; test_num = test_num + 1)
+        begin
+            n_tb = test_num;
+            tick;
+            Go_tb = 1;
+            tick;
+            Go_tb = 0;
+            if( n_tb > 12) CHECK_ERR;
+            else begin
+                while(n_tb > 0) begin
+                    n_tb = n_tb - 1;
+                    tick;
+                end
+                CHECK_PRODUCT;
+            end
+            tick;
+        end
+    end
+
+    task CHECK_PRODUCT;
+    begin
+        if(Error_tb != 0) begin
+            error_count = error_count + 1;
+            $display("Error: Product - Error");
+        end 
+        if(Done_tb != 1) begin
+            error_count = error_count + 1;
+            $display("Error: Product - Done");
+        end 
+        // if(product_tb != 1) begin
+        //     error_count = error_count + 1;
+        //     $display("Error: Product - Done");
+        // end
+    end
+    endtask
+
+    task CHECK_ERR;
+    begin
+        if(Error_tb != 1) begin
+            error_count = error_count + 1;
+            $display("Error: Error - Error");
+        end 
+        if(Done_tb != 0) begin
+            error_count = error_count + 1;
+            $display("Error: Error - Done");
+        end 
+    end
+    endtask
+
+    task tick;
+        begin
+           clk_tb<=1;
+           #1;
+           clk_tb<=0;
+           #1;
+        end
+    endtask
+
+
 endmodule
