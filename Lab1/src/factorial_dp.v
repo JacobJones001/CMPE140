@@ -24,13 +24,23 @@ module factorial_dp(
     input [3:0] n,
     input clk, ld_CNT, en_CNT, ld_REG, sel_MUX, OE_BUF,
     output [31:0] product,
-    output x_GT_1, x_GT_12
+    output x_GT_1, x_GT_12,
+    
+    //debug output
+    output [31:0] debug
     );
     
     wire [3:0] out_CNT;
-    wire [31:0] out_MUL, out_MUX, out_REG;
+    wire [31:0] out_MUL, out_MUX, out_REG, out_CNT32;
     reg [3:0] one = 4'b0001, twelve = 4'b1100;
-    supply1 [31:0] fourBytes;
+    reg [31:0] one32 = 32'b1;
+    supply0 [27:0] zeroExtend;
+
+    
+    assign out_CNT32 = {zeroExtend,out_CNT};
+    
+     //debug output assignment
+     assign debug = out_MUL;
     
     CNT CNT(
         .D (n),
@@ -53,7 +63,7 @@ module factorial_dp(
     );
     
     MUX2 MUX (
-        .A (fourBytes),
+        .A (one32),
         .B (out_MUL),
         .sel (sel_MUX),
         .out (out_MUX)
@@ -67,7 +77,7 @@ module factorial_dp(
     );
     
     MUL MUL(
-        .x(out_CNT),
+        .x(out_CNT32),
         .y(out_REG),
         .z(out_MUL)
     );

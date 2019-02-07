@@ -30,12 +30,13 @@ module MUL_tb;
         .z (z_tb)
     );
     
+    supply1 fourByte;
+    
     initial begin
         x_tb = 32'b1111;
         y_tb = 32'b0110;
         #10;
         x_tb = 32'b1010;
-        y_tb = 32'b0011;
-        #10;
+        y_tb = 32'b0011;     
     end
 endmodule

@@ -26,6 +26,9 @@ module dp_tb;
     wire [31:0] product_tb;
     wire x_GT_1_tb, x_GT_12_tb;
     
+    //debug output
+    wire [31:0] debug_tb;
+    
     factorial_dp dut(
         .n (n_tb),
         .clk (clk_tb),
@@ -36,7 +39,9 @@ module dp_tb;
         .OE_BUF (OE_BUF_tb),
         .product (product_tb),
         .x_GT_1 (x_GT_1_tb),
-        .x_GT_12 (x_GT_12_tb)
+        .x_GT_12 (x_GT_12_tb),
+        //debug output
+        .debug (debug_tb)
     );
     
     task tick;
@@ -47,7 +52,7 @@ module dp_tb;
     endtask
     
     initial begin
-        //testing for x_gt_12_tb
+        //testing for x_gt_12_tb, x_gt_1_tb, oe_buf_tb
         n_tb = 4'b1111;
         en_CNT_tb = 1'b1;
         ld_CNT_tb = 1'b1;
@@ -57,6 +62,23 @@ module dp_tb;
         tick;
         tick;
         if(x_GT_1_tb != 1'b1 | x_GT_12_tb != 1'b1) $display("Error at time=%dns for status signals x_GT_1 or x_GT_12", $time);
+        if(product_tb != 32'bz) $display("Error at time=%dns for output signal product", $time);
         
+        //testing for recursive factorial -- Test case: n = 0111
+        n_tb = 4'b0111;
+        ld_REG_tb = 1'b1;
+        OE_BUF_tb = 1'b1;
+        tick;
+        ld_CNT_tb = 1'b0;
+        sel_MUX_tb = 1'b1;
+        tick;
+        tick;
+        tick;
+        tick;
+        tick;
+        tick;
+        if(product_tb != (7*6*5*4*3*2*1)) $display("Error at time=%dns for output signal product", $time);
+        
+        $display("~~~~~~~~~~DONE!~~~~~~~~~~");
     end
 endmodule
