@@ -4,9 +4,16 @@
 module tb_factorial #(parameter DATA_WIDTH = 32);
     reg clk_tb, rst_tb;
     reg Go_tb;
-    reg [DATA_WIDTH-1:0] n_tb;
+    reg [DATA_WIDTH-1:0] n_tb, n_test_tb;
     wire Done_tb, Error_tb;
     wire [DATA_WIDTH-1:0] product_tb;
+    
+    //DEBUG
+    wire [2:0] CS_tb = DUT.FACT_CU.CS;
+    wire x_gt_1_tb = DUT.x_gt_1;
+    wire x_gt_12_tb = DUT.x_gt_12;
+    wire ld_CNT_tb = DUT.ld_CNT, en_CNT_tb = DUT.en_CNT, ld_REG_tb = DUT.ld_REG, sel_MUX_tb = DUT.sel_MUX, OE_BUF_tb = DUT.OE_BUF;
+    wire [3:0] out_CNT = DUT.FACT_DP.out_CNT;
 
     factorial #(.DATA_WIDTH(DATA_WIDTH)) DUT(
         .clk(clk_tb),
@@ -20,6 +27,7 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
 
 
     integer error_count = 0;
+    integer product_expected_tb = 0;
 
     initial
     begin
@@ -31,18 +39,23 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
         for(integer test_num = 0; test_num <= 13; test_num = test_num + 1)
         begin
             n_tb = test_num;
+            n_test_tb = test_num;
             tick;
             Go_tb = 1;
             tick;
             Go_tb = 0;
-            if( n_tb > 12) CHECK_ERR;
+            tick; // WAIT STATE
+            if( n_tb > 12) Go_tb = 0;
             else begin
-                while(n_tb > 0) begin
+                while(n_tb > 1) begin
                     n_tb = n_tb - 1;
                     tick;
-                end
-                CHECK_PRODUCT;
+                    if (n_tb == 1) tick;
+                end 
             end
+            tick;
+            if( n_tb > 12) CHECK_ERR;
+            else CHECK_PRODUCT;
             tick;
         end
     end
@@ -57,10 +70,17 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
             error_count = error_count + 1;
             $display("Error: Product - Done");
         end 
-        // if(product_tb != 1) begin
-        //     error_count = error_count + 1;
-        //     $display("Error: Product - Done");
-        // end
+
+        product_expected_tb = 1;
+        while (n_test_tb >1) begin
+            product_expected_tb = product_expected_tb * n_test_tb;
+            n_test_tb = n_test_tb - 1;
+        end
+
+        if(product_tb != product_expected_tb) begin
+            error_count = error_count + 1;
+            $display("Error: Product - Product");
+        end
     end
     endtask
 
@@ -86,7 +106,10 @@ module tb_factorial #(parameter DATA_WIDTH = 32);
         end
     endtask
     
-    initial #250 $stop;
+    initial begin 
+    #300 $display("Error Count:", error_count);
+    $stop;
+    end
 
 
 

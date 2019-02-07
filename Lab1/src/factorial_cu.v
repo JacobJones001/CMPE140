@@ -3,7 +3,8 @@ module factorial_cu #(parameter DATA_WIDTH = 32, CS_WIDTH = 3)(
     input clk, rst,
     input wire x_gt_1, x_gt_12,
     output reg Error,
-    output reg Done
+    output reg Done,
+    output reg ld_CNT, en_CNT, ld_REG, sel_MUX, OE_BUF 
 );
     parameter   IDLE = 3'b000,
                 S1 = 3'b001,
@@ -59,21 +60,35 @@ module factorial_cu #(parameter DATA_WIDTH = 32, CS_WIDTH = 3)(
             IDLE: begin
                 Done = 0;
                 Error = 0;
+                OE_BUF = 0;
+                sel_MUX = 0;
+                en_CNT = 0;
+                ld_REG = 0;
+                ld_CNT = 0;
             end
             S1: begin
-
+                ld_CNT = 1;
+                ld_REG = 1;
+                en_CNT = 1;
+                sel_MUX = 0;
             end
             S2: begin
-
+                ld_CNT = 0;
+                ld_REG = 0;
+                en_CNT = 0;
+                Done = 0;
             end
             S3: begin
                 Error = 1;
             end
             S4: begin
-
+                sel_MUX = 1;
+                en_CNT = 1;
+                ld_REG = 1;
             end
             S5: begin
                 Done = 1;
+                OE_BUF = 1;
             end
             default: Error = 1;
         endcase

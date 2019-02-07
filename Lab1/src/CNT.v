@@ -21,9 +21,9 @@
 
 
 module CNT(
-    input [3:0] D,
+    input [31:0] D,
     input clk, en, ld,
-    output reg [3:0] Q
+    output reg [31:0] Q
     );
     
     always @ (posedge clk) begin
