@@ -53,8 +53,8 @@ module factorial_dp(
     );
     
     MUX2 MUX (
-        .A (out_MUL),
-        .B (fourBytes),
+        .A (fourBytes),
+        .B (out_MUL),
         .sel (sel_MUX),
         .out (out_MUX)
     );
