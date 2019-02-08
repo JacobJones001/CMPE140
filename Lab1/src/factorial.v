@@ -4,6 +4,7 @@ module factorial #(parameter DATA_WIDTH = 32)(
     input wire [DATA_WIDTH-1:0] n,
     output wire Done, Error,
     output [DATA_WIDTH-1:0] product
+    
 );
 
     wire x_gt_1, x_gt_12;
