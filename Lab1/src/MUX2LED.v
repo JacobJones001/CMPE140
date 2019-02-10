@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 02/06/2019 05:00:18 PM
+// Create Date: 02/08/2019 08:54:08 PM
 // Design Name: 
-// Module Name: factorial_dp
+// Module Name: MUX2LED
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,15 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module CNT(
-    input [31:0] D,
-    input clk, en, ld,
-    output reg [31:0] Q
+module MUX2LED(
+    input sel,
+    input [7:0] in0, in1, in2, in3, in4, in5, in6, in7,
+    output [7:0] out0, out1, out2, out3
     );
     
-    always @ (posedge clk) begin
-        if(!en) Q <= Q;
-        else if (ld) Q <= D;
-        else Q <= Q-1;
-    end
+    assign out0 = (sel == 1'b0)? in0:in4;
+    assign out1 = (sel == 1'b0)? in1:in5;
+    assign out2 = (sel == 1'b0)? in2:in6;
+    assign out3 = (sel == 1'b0)? in3:in7;
 endmodule
+
