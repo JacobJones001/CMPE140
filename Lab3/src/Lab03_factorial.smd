@@ -1,0 +1,11 @@
+main:		addi $a0, $0, 5
+		sw $a0, 0($0)
+		addi $a1, $0, 1 # number to stop when n is at
+		addi $s0, $0, 1 # product starting value
+loop:		beq $a0, $a1, endloop
+		mult $s0, $a0
+		mflo $s0
+		subi $a0, $a0, 1
+		j loop
+endloop:	sw $s0, 0x10($0)
+        	j main
