@@ -1,20 +1,26 @@
 Main: 	addiu $a0, $0, 0x8000
-		addiu $a1, $0, 0x00A9
-		addiu $s0, $0, 1974
-	
-		multu $a0, $a0
-		mflo $s1
-		sw $s1, 20($0)
-
-		multu $s1, $a1
-		mflo $s2
-		sw $s2, 24($0)
-
-		srl $a2, $a2, 16
-		
-		addiu $t0, $s0, $s2
-		divu
-
-
-
-		
+	addiu $a1, $0, 0x00A9
+	addiu $s0, $0, 1974
+	multu $a0, $a0
+	mflo $s1
+	sw $s1,0x10010020($0)
+	multu $s1, $a1
+	mflo $s2
+	sw $s2,0x10010024($0)
+	mfhi $t0
+	sw $t0, 0x10010028($0)
+	srl $t1, $s2, 16
+	sll $t0, $t0, 16
+	or $s2, $t1, $t0
+	addu $t0, $s0, $s2 
+	divu $t0, $s0
+	mflo $t0
+	srl $s0, $t0, 1
+	sw $s0, 0x1001002C($0)
+while: 	bge $s0, 1665, done
+	addu $t2, $s0, $s2 
+	divu $t2, $s0
+	mflo $t2
+	srl $s0, $t2, 1
+done:	sll $s0, $s0, 8
+	sw $s0, 0x10010030($0)	
