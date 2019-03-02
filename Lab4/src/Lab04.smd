@@ -1,0 +1,51 @@
+Main:
+	addi $a0, $0, 0x100	#array base address
+	addi $a1, $0, 0		#i
+	addi $t0, $0, 3
+	addi $t1, $0, 50
+
+arrayLoop:
+	slt $t2, $a1, $t1
+	beq $t2, $0, exitLoop
+	sll $t2, $a1, 2		#memory 4 byte offset -> t2
+	add $t2, $t2, $a0
+	mult $a1, $t0
+	mflo $t3
+	sw $t3, 0($t2)
+	addi $a1, $a1, 1
+	j arrayLoop
+
+exitLoop:
+	lw $t0, 100($a0)	#4*25
+	lw $t1, 120($a0)
+	addi $t2, $0, 30
+	add $t0, $t0, $t1
+	div $t0, $t2
+	mflo $a0
+
+	jal factorial
+
+	sw $a0, 0x00		#store n at 0x00
+	sw $v0, 0x10		#store f at 0x10
+	
+	add $s0, $v0, $0	#return 0
+
+factorial:
+	addi $sp, $sp, -8
+	sw $a0, 4($sp)
+	sw $ra, 0($sp)
+	addi $t0, $0, 2
+	slt $t0, $a0, $t0
+	beq $t0, $0, else
+	jr $ra
+else:
+	$a0, $a0, -1
+	jal factorial
+	lw $a0 4($sp)
+	lw $ra 0($sp)
+	addi $sp, $sp, 8
+
+	
+
+	
+	
