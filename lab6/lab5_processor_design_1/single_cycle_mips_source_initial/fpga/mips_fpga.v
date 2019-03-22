@@ -109,6 +109,7 @@ module mips_fpga (
             4'b0100: reg_hex = alu_out[15:0];
             4'b0101: reg_hex = alu_out[31:16];
             4'b0110: reg_hex = wd_dm[15:0];
+            4'b0111: reg_hex = wd_dm[31:16];
             4'b1000: reg_hex = pc_current[15:0];
             4'b1001: reg_hex = pc_current[31:16];
             default: reg_hex = pc_current[15:0];
