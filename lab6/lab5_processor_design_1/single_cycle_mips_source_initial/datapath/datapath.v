@@ -6,7 +6,8 @@ module datapath (
         input  wire        reg_dst,
         input  wire        we_reg,
         input  wire        alu_src,
-        input  wire        dm2reg,
+        input  wire [1:0]  dm2reg,
+        input  wire        we_hilo,
         input  wire [2:0]  alu_ctrl,
         input  wire [4:0]  ra3,
         input  wire [31:0] instr,
@@ -30,6 +31,8 @@ module datapath (
     wire [31:0] alu_pb;
     wire [31:0] wd_rf;
     wire        zero;
+    wire [64-1:0] hilo_d, hilo_q;
+    wire [32-1:0] hi_d, lo_d;
     
     assign pc_src = branch & zero;
     assign ba = {sext_imm[29:0], 2'b00};
@@ -112,11 +115,25 @@ module datapath (
         );
 
     // --- MEM Logic --- //
-    mux2 #(32) rf_wd_mux (
+    mux4 #(32) rf_wd_mux (
             .sel            (dm2reg),
-            .a              (alu_out),
-            .b              (rd_dm),
-            .y              (wd_rf)
+            .in0              (alu_out),
+            .in1              (rd_dm),
+            .in2              (hi_d),
+            .in3              (lo_d),
+            .out              (wd_rf)
         );
+
+    // HiLo Register
+    assign {hi_d, lo_d} = hilo_d;
+    assign hilo_d = {alu_out_hi, alu_out_low};
+    flopenr #(64) hilo_mux (
+        .clk    (clk),
+        .reset  (rst),
+        .en     (we_hilo),
+        .d      (hilo_d),
+        .q      (hilo_q)
+    );
+
 
 endmodule

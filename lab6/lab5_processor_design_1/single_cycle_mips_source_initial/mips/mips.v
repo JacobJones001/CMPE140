@@ -16,7 +16,8 @@ module mips (
     wire       reg_dst;
     wire       we_reg;
     wire       alu_src;
-    wire       dm2reg;
+    wire [1:0] dm2reg;
+    wire       we_hilo;
     wire [2:0] alu_ctrl;
 
     datapath dp (
