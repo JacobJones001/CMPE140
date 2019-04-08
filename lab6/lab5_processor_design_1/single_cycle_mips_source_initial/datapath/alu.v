@@ -15,6 +15,7 @@ module alu (
             3'b010: y = a + b;
             3'b110: y = a - b;
             3'b111: y = (a < b) ? 1 : 0;
+            3'b011: y = a * b; // TODO: Change to pipelined
         endcase
     end
 

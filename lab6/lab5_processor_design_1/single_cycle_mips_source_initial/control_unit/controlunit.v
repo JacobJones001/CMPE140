@@ -7,12 +7,17 @@ module controlunit (
         output wire        we_reg,
         output wire        alu_src,
         output wire        we_dm,
-        output wire [1:0]  dm2reg,
+        output wire        dm2reg,
+        output wire        hilo_sel,
+        output wire        alu_out_sel,
         output wire        we_hilo,
         output wire [2:0]  alu_ctrl
     );
     
     wire [1:0] alu_op;
+    // wire hilo_sel;
+    // wire dm2reg_0;
+    // assign dm2reg = {hilo_sel, dm2reg_0};
 
     maindec md (
         .opcode         (opcode),
@@ -29,7 +34,9 @@ module controlunit (
     auxdec ad (
         .alu_op         (alu_op),
         .funct          (funct),
-        .alu_ctrl       (alu_ctrl)
+        .alu_ctrl       (alu_ctrl),
+        .hilo_sel       (hilo_sel),
+        .alu_out_sel    (alu_out_sel)
     );
 
 endmodule

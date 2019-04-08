@@ -16,8 +16,10 @@ module mips (
     wire       reg_dst;
     wire       we_reg;
     wire       alu_src;
-    wire [1:0] dm2reg;
+    wire       dm2reg;
     wire       we_hilo;
+    wire       hilo_sel;
+    wire       alu_out_sel;
     wire [2:0] alu_ctrl;
 
     datapath dp (
@@ -29,6 +31,9 @@ module mips (
             .we_reg         (we_reg),
             .alu_src        (alu_src),
             .dm2reg         (dm2reg),
+            .hilo_sel       (hilo_sel),
+            .alu_out_sel    (alu_out_sel),
+            .we_hilo        (we_hilo),
             .alu_ctrl       (alu_ctrl),
             .ra3            (ra3),
             .instr          (instr),
@@ -49,6 +54,9 @@ module mips (
             .alu_src        (alu_src),
             .we_dm          (we_dm),
             .dm2reg         (dm2reg),
+            .hilo_sel       (hilo_sel),
+            .alu_out_sel    (alu_out_sel),
+            .we_hilo        (we_hilo),
             .alu_ctrl       (alu_ctrl)
         );
 
