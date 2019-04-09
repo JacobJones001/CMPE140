@@ -5,11 +5,19 @@ module tb_mips_top;
     wire        we_dm;
     wire [31:0] pc_current;
     wire [31:0] instr;
-    wire [31:0] alu_out;
+    wire [31:0] alu_mux_out;
     wire [31:0] wd_dm;
     wire [31:0] rd_dm;
     wire [31:0] DONT_USE;
-    // wire alu_out_sel = DUT.mips.alu_out_sel
+    
+    // Debug
+    wire alu_out_sel = DUT.mips.alu_out_sel;
+    wire hilo_sel = DUT.mips.hilo_sel;
+    wire dm2reg = DUT.mips.dm2reg;
+    wire we_hilo = DUT.mips.we_hilo;
+    wire [63:0] hilo_d = DUT.mips.dp.hilo_d;
+    wire [63:0] hilo_q = DUT.mips.dp.hilo_q;
+
     
     mips_top DUT (
             .clk            (clk),
@@ -18,7 +26,7 @@ module tb_mips_top;
             .ra3            (5'b00000),
             .pc_current     (pc_current),
             .instr          (instr),
-            .alu_out        (alu_out),
+            .alu_out        (alu_mux_out),
             .wd_dm          (wd_dm),
             .rd_dm          (rd_dm),
             .rd3            (DONT_USE)

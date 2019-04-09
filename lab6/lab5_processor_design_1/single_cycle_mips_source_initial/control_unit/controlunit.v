@@ -36,7 +36,8 @@ module controlunit (
         .funct          (funct),
         .alu_ctrl       (alu_ctrl),
         .hilo_sel       (hilo_sel),
-        .alu_out_sel    (alu_out_sel)
+        .alu_out_sel    (alu_out_sel),
+        .we_hilo        (we_hilo)
     );
 
 endmodule

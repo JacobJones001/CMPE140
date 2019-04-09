@@ -39,7 +39,7 @@ module mips (
             .instr          (instr),
             .rd_dm          (rd_dm),
             .pc_current     (pc_current),
-            .alu_out        (alu_out),
+            .alu_mux_out    (alu_out),
             .wd_dm          (wd_dm),
             .rd3            (rd3)
         );
