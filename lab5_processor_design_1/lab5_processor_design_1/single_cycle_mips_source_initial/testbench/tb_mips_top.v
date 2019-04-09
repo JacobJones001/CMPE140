@@ -14,7 +14,7 @@ module tb_mips_top;
             .clk            (clk),
             .rst            (rst),
             .we_dm          (we_dm),
-            .ra3            (5'b00000),
+            .ra3            (5'h0),
             .pc_current     (pc_current),
             .instr          (instr),
             .alu_out        (alu_out),
@@ -40,10 +40,7 @@ module tb_mips_top;
     
     initial begin
         reset;
-        while(pc_current != 32'h48) 
-        begin
-            tick;
-        end
+        while(pc_current != 32'h48) tick;
         $finish;
     end
 
