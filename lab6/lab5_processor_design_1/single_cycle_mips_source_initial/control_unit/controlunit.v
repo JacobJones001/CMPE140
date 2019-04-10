@@ -3,6 +3,7 @@ module controlunit (
         input  wire [5:0]  funct,
         output wire        branch,
         output wire        jump,
+        output wire        reg_jump,
         output wire        reg_dst,
         output wire        we_reg,
         output wire        alu_src,
@@ -37,7 +38,8 @@ module controlunit (
         .alu_ctrl       (alu_ctrl),
         .hilo_sel       (hilo_sel),
         .alu_out_sel    (alu_out_sel),
-        .we_hilo        (we_hilo)
+        .we_hilo        (we_hilo),
+        .reg_jump       (reg_jump)
     );
 
 endmodule

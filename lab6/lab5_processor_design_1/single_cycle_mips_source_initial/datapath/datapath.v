@@ -3,6 +3,7 @@ module datapath (
         input  wire        rst,
         input  wire        branch,
         input  wire        jump,
+        input  wire        reg_jump,
         input  wire        reg_dst,
         input  wire        we_reg,
         input  wire        alu_src,
@@ -25,6 +26,7 @@ module datapath (
     wire [31:0] pc_plus4;
     wire [31:0] pc_pre;
     wire [31:0] pc_next;
+    wire [31:0] pc_rj_plus4;
     wire [31:0] sext_imm;
     wire [31:0] ba;
     wire [31:0] bta;
@@ -63,9 +65,16 @@ module datapath (
             .y              (bta)
         );
 
+    mux2 #(32) pc_reg_jmp_mux (
+            .sel            (reg_jump),
+            .a              (pc_plus4),
+            .b              (alu_pa),
+            .y              (pc_rj_plus4)
+        );
+
     mux2 #(32) pc_src_mux (
             .sel            (pc_src),
-            .a              (pc_plus4),
+            .a              (pc_rj_plus4),
             .b              (bta),
             .y              (pc_pre)
         );
