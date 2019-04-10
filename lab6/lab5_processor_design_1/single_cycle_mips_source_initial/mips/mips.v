@@ -13,6 +13,7 @@ module mips (
     
     wire       branch;
     wire       jump;
+    wire       reg_jump;
     wire       reg_dst;
     wire       we_reg;
     wire       alu_src;
@@ -27,6 +28,7 @@ module mips (
             .rst            (rst),
             .branch         (branch),
             .jump           (jump),
+            .reg_jump       (reg_jump),
             .reg_dst        (reg_dst),
             .we_reg         (we_reg),
             .alu_src        (alu_src),
@@ -49,6 +51,7 @@ module mips (
             .funct          (instr[5:0]),
             .branch         (branch),
             .jump           (jump),
+            .reg_jump       (reg_jump),
             .reg_dst        (reg_dst),
             .we_reg         (we_reg),
             .alu_src        (alu_src),
