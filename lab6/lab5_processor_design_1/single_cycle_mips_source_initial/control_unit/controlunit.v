@@ -13,6 +13,7 @@ module controlunit (
         output wire        hilo_sel,
         output wire        alu_out_sel,
         output wire        we_hilo,
+        output wire        shift_mux_sel,
         output wire [2:0]  alu_ctrl
     );
     
@@ -41,7 +42,8 @@ module controlunit (
         .hilo_sel       (hilo_sel),
         .alu_out_sel    (alu_out_sel),
         .we_hilo        (we_hilo),
-        .reg_jump       (reg_jump)
+        .reg_jump       (reg_jump),
+        .shift_mux_sel  (shift_mux_sel)
     );
 
 endmodule
