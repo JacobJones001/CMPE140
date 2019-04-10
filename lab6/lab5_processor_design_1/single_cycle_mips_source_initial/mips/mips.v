@@ -24,6 +24,7 @@ module mips (
     wire       we_hilo;
     wire       hilo_sel;
     wire       alu_out_sel;
+    wire       shift_mux_sel;
     wire [2:0] alu_ctrl;
 
     datapath dp (
@@ -40,6 +41,7 @@ module mips (
             .hilo_sel       (hilo_sel),
             .alu_out_sel    (alu_out_sel),
             .we_hilo        (we_hilo),
+            .shift_mux_sel  (shift_mux_sel),
             .alu_ctrl       (alu_ctrl),
             .ra3            (ra3),
             .instr          (instr),
@@ -67,6 +69,7 @@ module mips (
             .hilo_sel       (hilo_sel),
             .alu_out_sel    (alu_out_sel),
             .we_hilo        (we_hilo),
+            .shift_mux_sel  (shift_mux_sel),
             .alu_ctrl       (alu_ctrl)
         );
 

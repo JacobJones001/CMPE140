@@ -12,6 +12,7 @@ module datapath (
         input  wire        we_hilo,
         input  wire        alu_out_sel,
         input  wire        hilo_sel,
+        input  wire        shift_mux_sel,
         input  wire [2:0]  alu_ctrl,
         input  wire [4:0]  ra3,
         input  wire [31:0] instr,
@@ -35,6 +36,7 @@ module datapath (
     wire [31:0] ba;
     wire [31:0] bta;
     wire [31:0] jta;
+    wire [31:0] rd1_out;
     wire [31:0] alu_pa;
     wire [31:0] alu_pb;
     wire [31:0] alu_mem_out;
@@ -45,6 +47,8 @@ module datapath (
     wire [32-1:0] alu_out_hi;
     wire [32-1:0] hilo_mux_out;
     wire [32-1:0] alu_out;
+    wire [31:0] shift_mul_mux_out;
+    wire [4:0] shift_rd1_out;
     
     assign pc_src = branch & zero;
     assign ba = {sext_imm[29:0], 2'b00};
@@ -73,7 +77,7 @@ module datapath (
     mux2 #(32) pc_reg_jmp_mux (
             .sel            (reg_jump),
             .a              (pc_plus4),
-            .b              (alu_pa),
+            .b              (rd1_out),
             .y              (pc_rj_plus4)
         );
 
@@ -114,7 +118,7 @@ module datapath (
             .ra3            (ra3),
             .wa             (rf_wa),
             .wd             (wd_rf),
-            .rd1            (alu_pa),
+            .rd1            (rd1_out),
             .rd2            (wd_dm),
             .rd3            (rd3)
         );
@@ -131,6 +135,14 @@ module datapath (
             .b              (sext_imm),
             .y              (alu_pb)
         );
+    
+    assign alu_pa = {rd1_out[31:5], shift_rd1_out};
+    mux2 #(5) shift_rd1_mux (
+        .sel    (shift_mul_sel),
+        .a      (rd1_out[4:0]),
+        .b      (instr[10:6]),
+        .y      (shift_rd1_out)
+    );
 
     alu alu (
             .op             (alu_ctrl),
@@ -180,5 +192,14 @@ module datapath (
         .b      (hilo_mux_out),
         .y    (alu_mux_out)
     );
+
+    // Shifter Logic (MOVED TO ALU)
+    // multi_shifter #(32, 5) shifter (
+    //     .SLL     (SLL),
+    //     .SLR     (SLR),
+    //     .data   (rd2),
+    //     .shamt  (instr[10:6]),
+    //     .result (shift_result)
+    // );
 
 endmodule

@@ -17,9 +17,11 @@ module alu (
             3'b000: y_total = a & b;
             3'b001: y_total = a | b;
             3'b010: y_total = a + b;
+            3'b011: y_total = a * b; // TODO: Change to pipelined
+            3'b100: y_total = a << b[4:0]; // TODO: Change to pipelined
+            3'b101: y_total = a >> b[4:0]; // TODO: Change to pipelined
             3'b110: y_total = a - b;
             3'b111: y_total = (a < b) ? 1 : 0;
-            3'b011: y_total = a * b; // TODO: Change to pipelined
         endcase
     end
 
