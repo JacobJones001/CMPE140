@@ -23,6 +23,8 @@ module mips_fpga (
     wire [31:0] alu_out;
     wire [31:0] wd_dm;
     wire [31:0] rd_dm;
+    wire [31:0] wd_rf;
+    wire [4:0] rf_wa;
     wire [31:0] dispData;
 
     clk_gen clk_gen (
@@ -48,7 +50,9 @@ module mips_fpga (
             .alu_out            (alu_out),
             .wd_dm              (wd_dm),
             .rd_dm              (rd_dm),
-            .rd3                (dispData)
+            .rd3                (dispData),
+            .wd_rf              (wd_rf),
+            .rf_wa              (rf_wa)
         );
 
     /*

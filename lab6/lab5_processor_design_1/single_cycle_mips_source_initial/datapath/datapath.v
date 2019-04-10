@@ -1,6 +1,7 @@
 module datapath (
         input  wire        clk,
         input  wire        rst,
+        input  wire        jal,
         input  wire        branch,
         input  wire        jump,
         input  wire        reg_jump,
@@ -18,10 +19,13 @@ module datapath (
         output wire [31:0] pc_current,
         output wire [31:0] alu_mux_out,
         output wire [31:0] wd_dm,
-        output wire [31:0] rd3
+        output wire [31:0] rd3,
+        output wire [31:0] wd_rf,
+        output wire [4:0] rf_wa
     );
 
-    wire [4:0]  rf_wa;
+    wire [4:0]  reg_addr;
+    // wire [4:0]  rf_wa;
     wire        pc_src;
     wire [31:0] pc_plus4;
     wire [31:0] pc_pre;
@@ -33,7 +37,8 @@ module datapath (
     wire [31:0] jta;
     wire [31:0] alu_pa;
     wire [31:0] alu_pb;
-    wire [31:0] wd_rf;
+    wire [31:0] alu_mem_out;
+    // wire [31:0] wd_rf;
     wire        zero;
     wire [64-1:0] hilo_d, hilo_q;
     wire [32-1:0] hi_q, lo_q;
@@ -91,6 +96,13 @@ module datapath (
             .sel            (reg_dst),
             .a              (instr[20:16]),
             .b              (instr[15:11]),
+            .y              (reg_addr)
+        );
+
+    mux2 #(5) reg_addr_mux (
+            .sel            (jal),
+            .a              (reg_addr),
+            .b              (5'h1F),
             .y              (rf_wa)
         );
 
@@ -130,10 +142,17 @@ module datapath (
         );
 
     // --- MEM Logic --- //
-    mux2 #(32) rf_wd_mux (
+    mux2 #(32) alu_mem_mux (
             .sel            (dm2reg),
             .a              (alu_mux_out),
             .b              (rd_dm),
+            .y              (alu_mem_out)
+        );
+
+    mux2 #(32) rf_wd_mux (
+            .sel            (jal),
+            .a              (alu_mem_out),
+            .b              (pc_plus4),
             .y              (wd_rf)
         );
 

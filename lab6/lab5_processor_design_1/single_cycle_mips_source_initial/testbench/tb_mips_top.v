@@ -9,6 +9,8 @@ module tb_mips_top;
     wire [31:0] wd_dm;
     wire [31:0] rd_dm;
     wire [31:0] DONT_USE;
+    wire [31:0] wd_rf;
+    wire [4:0]  rf_wa;
     
     // Debug
     wire alu_out_sel = DUT.mips.alu_out_sel;
@@ -29,7 +31,9 @@ module tb_mips_top;
             .alu_out        (alu_mux_out),
             .wd_dm          (wd_dm),
             .rd_dm          (rd_dm),
-            .rd3            (DONT_USE)
+            .rd3            (DONT_USE),
+            .wd_rf          (wd_rf),
+            .rf_wa          (rf_wa)
         );
     
     task tick; 

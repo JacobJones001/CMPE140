@@ -1,6 +1,7 @@
 module controlunit (
         input  wire [5:0]  opcode,
         input  wire [5:0]  funct,
+        output wire        jal,
         output wire        branch,
         output wire        jump,
         output wire        reg_jump,
@@ -22,6 +23,7 @@ module controlunit (
 
     maindec md (
         .opcode         (opcode),
+        .jal            (jal),
         .branch         (branch),
         .jump           (jump),
         .reg_dst        (reg_dst),

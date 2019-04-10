@@ -8,9 +8,12 @@ module mips (
         output wire [31:0] pc_current,
         output wire [31:0] alu_out,
         output wire [31:0] wd_dm,
-        output wire [31:0] rd3
+        output wire [31:0] rd3,
+        output wire [31:0] wd_rf,
+        output wire [4:0] rf_wa
     );
     
+    wire       jal;
     wire       branch;
     wire       jump;
     wire       reg_jump;
@@ -26,6 +29,7 @@ module mips (
     datapath dp (
             .clk            (clk),
             .rst            (rst),
+            .jal            (jal),
             .branch         (branch),
             .jump           (jump),
             .reg_jump       (reg_jump),
@@ -43,12 +47,15 @@ module mips (
             .pc_current     (pc_current),
             .alu_mux_out    (alu_out),
             .wd_dm          (wd_dm),
-            .rd3            (rd3)
+            .rd3            (rd3),
+            .wd_rf          (wd_rf),
+            .rf_wa          (rf_wa)
         );
 
     controlunit cu (
             .opcode         (instr[31:26]),
             .funct          (instr[5:0]),
+            .jal            (jal),
             .branch         (branch),
             .jump           (jump),
             .reg_jump       (reg_jump),
