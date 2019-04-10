@@ -8,7 +8,9 @@ module mips_top (
         output wire [31:0] alu_out,
         output wire [31:0] wd_dm,
         output wire [31:0] rd_dm,
-        output wire [31:0] rd3
+        output wire [31:0] rd3,
+        output wire [31:0] wd_rf,
+        output wire [4:0] rf_wa
     );
 
     wire [31:0] DONT_USE;
@@ -23,7 +25,9 @@ module mips_top (
             .pc_current     (pc_current),
             .alu_out        (alu_out),
             .wd_dm          (wd_dm),
-            .rd3            (rd3)
+            .rd3            (rd3),
+            .wd_rf          (wd_rf),
+            .rf_wa          (rf_wa)
         );
 
     imem imem (
