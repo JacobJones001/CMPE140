@@ -1,7 +1,7 @@
 module auxdec (
         input  wire [1:0] alu_op,
         input  wire [5:0] funct,
-        output wire [3:0] alu_ctrl,
+        output wire [2:0] alu_ctrl,
         output wire       hilo_sel,
         output wire       alu_out_sel,
         output wire       we_hilo,

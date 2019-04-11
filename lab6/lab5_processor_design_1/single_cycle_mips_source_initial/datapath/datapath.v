@@ -47,7 +47,7 @@ module datapath (
     wire [32-1:0] alu_out_hi;
     wire [32-1:0] hilo_mux_out;
     wire [32-1:0] alu_out;
-    wire [31:0] shift_mul_mux_out;
+    // wire [31:0] shift_mul_mux_out;
     wire [4:0] shift_rd1_out;
     
     assign pc_src = branch & zero;
@@ -137,12 +137,22 @@ module datapath (
         );
     
     assign alu_pa = {rd1_out[31:5], shift_rd1_out};
+    // assign alu_pa = {rd1_out[31:5], rd1_out[4:0]};
+    // assign alu_pa = (shift_mux_sel) ? instr : rd1_out;
+    
     mux2 #(5) shift_rd1_mux (
-        .sel    (shift_mul_sel),
+        .sel    (shift_mux_sel),
         .a      (rd1_out[4:0]),
         .b      (instr[10:6]),
         .y      (shift_rd1_out)
     );
+
+    // mux2 #(32) shift_rd1_mux (
+    //         .sel            (shift_mux_sel),
+    //         .a              (rd1_out),
+    //         .b              (instr),
+    //         .y              (alu_pa)
+    // );
 
     alu alu (
             .op             (alu_ctrl),

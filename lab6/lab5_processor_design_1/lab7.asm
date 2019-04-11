@@ -27,3 +27,6 @@ else:
     mflo $v0
     jr $ra
 end:
+
+#   sll $a1, $a1, 0x3
+#   srl $a1, $a1, 0x2
