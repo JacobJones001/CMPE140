@@ -19,6 +19,16 @@ module tb_mips_top;
     wire we_hilo = DUT.mips.we_hilo;
     wire [63:0] hilo_d = DUT.mips.dp.hilo_d;
     wire [63:0] hilo_q = DUT.mips.dp.hilo_q;
+    wire [31:0] alu_pa = DUT.mips.dp.alu_pa;
+    wire [31:0] alu_out = DUT.mips.dp.alu_out;
+    wire [31:0] rd1_out = DUT.mips.dp.rd1_out;
+    wire [2:0] alu_ctrl = DUT.mips.dp.alu_ctrl;
+    // wire [31:0] instr = DUT.mips.dp.instr;
+    // wire [4:0] shift_rd1_out = DUT.mips.dp.shift_rd1_out;
+    // wire [31:0] shift_rd1_mux_a = DUT.mips.dp.shift_rd1_mux.a;
+    // wire [31:0] shift_rd1_mux_b = DUT.mips.dp.shift_rd1_mux.b;
+    // wire [31:0] shift_rd1_mux_y = DUT.mips.dp.shift_rd1_mux.y;
+    wire shift_mux_sel = DUT.mips.shift_mux_sel;
 
     
     mips_top DUT (
