@@ -17,12 +17,15 @@ module tb_mips_top;
     wire hilo_sel = DUT.mips.hilo_sel;
     wire dm2reg = DUT.mips.dm2reg;
     wire we_hilo = DUT.mips.we_hilo;
+    wire jal = DUT.mips.jal;
     wire [63:0] hilo_d = DUT.mips.dp.hilo_d;
     wire [63:0] hilo_q = DUT.mips.dp.hilo_q;
     wire [31:0] alu_pa = DUT.mips.dp.alu_pa;
     wire [31:0] alu_out = DUT.mips.dp.alu_out;
+    wire [31:0] pc_plus4 = DUT.mips.dp.pc_plus4;
     wire [31:0] rd1_out = DUT.mips.dp.rd1_out;
     wire [2:0] alu_ctrl = DUT.mips.dp.alu_ctrl;
+    wire [4:0] ra1 = instr[25:21];
     // wire [31:0] instr = DUT.mips.dp.instr;
     // wire [4:0] shift_rd1_out = DUT.mips.dp.shift_rd1_out;
     // wire [31:0] shift_rd1_mux_a = DUT.mips.dp.shift_rd1_mux.a;
@@ -164,11 +167,11 @@ module tb_mips_top;
     
     initial begin
         reset;
-        run_test;
-        // while(pc_current != 32'h48) 
-        // begin
-        //     tick;
-        // end
+        // run_test;
+        while(pc_current != 32'h58) 
+        begin
+            tick;
+        end
         $display("Error Count: ", error_count);
         $finish;
     end
