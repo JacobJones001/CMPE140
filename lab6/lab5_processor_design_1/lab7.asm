@@ -9,7 +9,7 @@ main:
     j end
 factorial:
     addi $sp, $sp, -8
-    sw $a0, 4($sp)]
+    sw $a0, 4($sp)
     sw $ra, 0($sp)
     addi $t0, $0, 2
     slt $t0, $a0, $t0
