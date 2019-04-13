@@ -13,11 +13,18 @@ module tb_mips_top;
     wire [4:0]  rf_wa;
     
     // Debug
+    wire shift_mux_sel = DUT.mips.shift_mux_sel;
     wire alu_out_sel = DUT.mips.alu_out_sel;
     wire hilo_sel = DUT.mips.hilo_sel;
     wire dm2reg = DUT.mips.dm2reg;
     wire we_hilo = DUT.mips.we_hilo;
     wire jal = DUT.mips.jal;
+    wire we_reg = DUT.mips.we_reg;
+    wire reg_jump = DUT.mips.reg_jump;
+    wire reg_dst = DUT.mips.reg_dst;
+    wire alu_src = DUT.mips.alu_src;
+    wire jump = DUT.mips.jump;
+    wire branch = DUT.mips.branch;
     wire [63:0] hilo_d = DUT.mips.dp.hilo_d;
     wire [63:0] hilo_q = DUT.mips.dp.hilo_q;
     wire [31:0] alu_pa = DUT.mips.dp.alu_pa;

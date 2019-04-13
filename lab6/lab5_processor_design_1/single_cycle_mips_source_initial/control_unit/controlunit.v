@@ -18,6 +18,14 @@ module controlunit (
     );
     
     wire [1:0] alu_op;
+    wire we_reg_main, we_reg_aux;
+
+    mux2 #(1) we_reg_mux (
+            .sel            (we_reg_aux),
+            .a              (we_reg_main),
+            .b              (1'b0),
+            .y              (we_reg)
+        );
     // wire hilo_sel;
     // wire dm2reg_0;
     // assign dm2reg = {hilo_sel, dm2reg_0};
@@ -28,7 +36,7 @@ module controlunit (
         .branch         (branch),
         .jump           (jump),
         .reg_dst        (reg_dst),
-        .we_reg         (we_reg),
+        .we_reg         (we_reg_main),
         .alu_src        (alu_src),
         .we_dm          (we_dm),
         .dm2reg         (dm2reg),
@@ -43,7 +51,8 @@ module controlunit (
         .alu_out_sel    (alu_out_sel),
         .we_hilo        (we_hilo),
         .reg_jump       (reg_jump),
-        .shift_mux_sel  (shift_mux_sel)
+        .shift_mux_sel  (shift_mux_sel),
+        .we_reg_aux      (we_reg_aux)
     );
 
 endmodule
